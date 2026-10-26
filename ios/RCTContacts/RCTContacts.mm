@@ -1658,19 +1658,7 @@ RCT_EXPORT_METHOD(removeContactsFromGroup:(NSString *)groupId
 }
 
 - (void)checkPermission:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
-    CNAuthorizationStatus authStatus = [CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts];
-
-    if (authStatus == CNAuthorizationStatusDenied || authStatus == CNAuthorizationStatusRestricted) {
-        resolve(@"denied");
-    } else if (authStatus == CNAuthorizationStatusAuthorized) {
-        resolve(@"authorized");
-    } else if (@available(iOS 18, *)) {
-        if (authStatus == CNAuthorizationStatusRestricted) {
-            resolve(@"limited");
-        }
-    } else {
-        resolve(@"undefined");
-    }
+    [self checkPermission:resolve rejecter:reject];
 }
 
 
